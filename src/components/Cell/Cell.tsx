@@ -6,10 +6,13 @@ type CellProps = {
 };
 
 const Cell = ({id}: CellProps) => {
-    const [visible, setVisible] = useState(false)
+    const [visible, setVisible] = useState(false);
 
     const toggleVisible = useCallback(
-        () => setVisible(!visible),
+        (e: React.MouseEvent<HTMLElement>) => {
+            e.preventDefault();
+            setVisible(prevState => !prevState);
+        },
         [setVisible]
     );
 
@@ -17,7 +20,9 @@ const Cell = ({id}: CellProps) => {
         <div
             className={classes.cell}
             onClick={toggleVisible}>
-            <h2>{id + 1}</h2>
+            <h2 className={visible ? classes.visible: classes.hidden}>
+                {id}
+            </h2>
         </div>
     );
 };

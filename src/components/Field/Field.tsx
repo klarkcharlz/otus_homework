@@ -11,7 +11,7 @@ const Field = ({cells}: FieldProps) => {
         <div className={classes.field}>
             {
                 [...Array(cells)].map((item, index) => {
-                    return <Cell key={index} id={index} />
+                    return <Cell key={index} id={index + 1} />
                 })
             }
         </div>
