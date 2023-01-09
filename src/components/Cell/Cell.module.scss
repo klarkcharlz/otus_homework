@@ -1,8 +1,16 @@
-.Cell{
+.cell{
   width: 200px;
   height: 200px;
   border: 1px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.visible{
+  visibility: visible;
+}
+
+.hidden{
+  visibility: hidden;
 }

@@ -8,7 +8,7 @@ type FieldProps = {
 
 const Field = ({cells}: FieldProps) => {
     return (
-        <div className={classes.TestBox}>
+        <div className={classes.field}>
             {
                 [...Array(cells)].map((item, index) => {
                     return <Cell key={index} id={index} />

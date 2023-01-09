@@ -14,10 +14,10 @@ const Cell = ({id}: CellProps) => {
     );
 
     return (
-        <div className={classes.Cell} onClick={toggleVisible}>
-            <h2
-                visibility={ visible ? 'visible': 'hidden'}
-            >{id + 1}</h2>
+        <div
+            className={classes.cell}
+            onClick={toggleVisible}>
+            <h2>{id + 1}</h2>
         </div>
     );
 };
