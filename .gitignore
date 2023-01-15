@@ -25,3 +25,6 @@ yarn-error.log*
 # other
 .idea
 package-lock.json
+.npmrc
+.storybook/
+yarn.lock
