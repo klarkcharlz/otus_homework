@@ -3,10 +3,9 @@ import Cell from '../../components/Cell/Cell';
 
 test('From element: exist in the DOM', () => {
     const id = 3;
-    const { container } = render(<Cell id={id}/>)
-    const elem = container.querySelector<HTMLElement>('h2');
+    render(<Cell id={id}/>)
+    const elem = screen.getByText<HTMLElement>(`${id}`);
     expect(elem).toBeInTheDocument();
-    expect(elem).toHaveTextContent(`${id}`);
     expect(elem).toHaveClass('hidden');
     fireEvent.click(elem);
     expect(elem).toHaveClass('visible');
