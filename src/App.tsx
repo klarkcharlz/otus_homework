@@ -5,18 +5,22 @@ import {User, UserTable} from './components/UserTable/UserTable';
 type Props = {};
 
 type State = {
-    users: Array<User> | [];
+    users: Array<User> | [],
+    totalRequests: number,
+    alert: boolean
 };
 
+const userApiUrl = 'https://jsonplaceholder.typicode.com/users';
 
 class App extends React.Component<Props, State> {
-    userApiUrl = 'https://jsonplaceholder.typicode.com/users';
 
-    constructor(props: any) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
-            users: []
+            users: [],
+            totalRequests: 0,
+            alert: false
         };
 
         this.getUsersData = this.getUsersData.bind(this);
@@ -25,32 +29,62 @@ class App extends React.Component<Props, State> {
 
     getUsersData(e: MouseEvent<HTMLElement> | null) {
         if (e !== null) e.preventDefault();
-        axios.get(this.userApiUrl)
+        axios.get(userApiUrl)
             .then(response => {
                 const usersData: Array<User> = response.data;
-                // console.log(usersData);
-                // console.log(this.state);
-                this.setState({...this.state, users: usersData});
+                // console.log('Get users data: ', usersData);
+                this.setState(
+                    {
+                        ...this.state,
+                        totalRequests: this.state.totalRequests + 1,
+                        users: usersData
+                    }
+                );
             }).catch((error) => {
             console.error(error);
         })
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.state.totalRequests >= 20 && !this.state.alert) {
+            this.setState({...this.state, alert: true});
+        }
+    }
+
+    handler(e: any) {
+        console.log(e)
+        console.log('click');
+    }
+
+    componentDidMount() {
+        this.getUsersData(null);
+        window.addEventListener('click', this.handler)
+    }
+
+    componentWillUnmout() {
+        window.removeEventListener('click', this.handler);
     }
 
     getUsers() {
         return this.state.users;
     }
 
-    componentDidMount() {
-        this.getUsersData(null);
-    }
-
     render() {
+        const users = this.getUsers();
         return (
             <div>
-                <UserTable users={this.getUsers()}/>
+                <UserTable users={users}/>
+
                 <button onClick={this.getUsersData} type={'button'}>
-                    Update User Data
+                    Update Users Data
                 </button>
+                {
+                    this.state.alert &&
+                        <h2>
+                            Осторожно, не превысьте количество запросов на
+                            сегодня!
+                        </h2>
+                }
             </div>
         );
     }

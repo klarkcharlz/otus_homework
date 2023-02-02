@@ -34,7 +34,9 @@ type TableProps = {
     users: Array<User> | [];
 };
 
-type TableState = {};
+type TableState = {
+    users: Array<User> | [];
+};
 
 type RowProps = {
     user: User
@@ -54,14 +56,21 @@ const TableRow: FC<RowProps> = ({user}) => {
 
 
 class UserTable extends React.Component<TableProps, TableState> {
-    constructor(props: any) {
+    constructor(props: TableProps) {
         super(props);
-
-        console.log(props);
-
-        this.state = {};
-
+        this.state = {
+            users: props.users
+        };
     }
+
+    shouldComponentUpdate(nextProps: TableProps, nextState: TableState){
+        if (JSON.stringify(this.state.users) !== JSON.stringify(nextProps.users)){
+            this.setState({users: nextProps.users});
+            return true;
+        }
+        return false;
+    }
+
 
     render() {
         return (
@@ -77,7 +86,10 @@ class UserTable extends React.Component<TableProps, TableState> {
                     </tr>
                     </thead>
                     <tbody>
-
+                        {this.state.users.map(
+                            (user,i) =>
+                                <TableRow key={i} user={user}/>
+                        )}
                     </tbody>
                 </table>
             </div>
