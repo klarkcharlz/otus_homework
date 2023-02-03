@@ -98,6 +98,6 @@ class UserTable extends React.Component<TableProps, TableState> {
 }
 
 export {
-    UserTable,
-    User
-};
+    UserTable
+};    export type { User };
+
